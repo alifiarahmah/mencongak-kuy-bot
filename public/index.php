@@ -59,7 +59,28 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 	if(is_array($data['events'])){
 		foreach ($data['events'] as $event){
 			if ($event['type'] == 'message'){
+
 				if($event['message']['type'] == 'text'){
+					if(strpos($event['message']['text'], '/add') !== false){
+						// add
+						preg_match_all('!\d+!', $event['message']['text'], $num);
+						$val = $num[0] + $num[1];
+						$result = $bot->replyText($event['replyToken'], "$num[0] + $num[1] = $val");
+					}
+					else if(strpos($event['message']['text'], '/sub') !== false){
+						// substract
+					}
+					else if(strpos($event['message']['text'], '/multiply') !== false){
+						// multiply
+					}
+					else if(strpos($event['message']['text'], '/div') !== false){
+						// divide
+					}
+
+				}
+
+				// buat game
+				/*if($event['message']['type'] == 'text'){
 	
 					// variabel buat game
 					$counter = 0;
@@ -149,7 +170,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 					return $response
 						->withHeader('Content-Type', 'application/json')
 						->withStatus($result->getHTTPStatus());
-				}
+				}*/
 			}
 		}
 	}
