@@ -63,9 +63,10 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 				if($event['message']['type'] == 'text'){
 					if(strpos($event['message']['text'], '/add') !== false){
 						// add
+						$result = $bot->replyText($event['replyToken'], "oh");
 						preg_match_all('!\d+!', $event['message']['text'], $num);
 						$val = $num[0] + $num[1];
-						$result = $bot->replyText($event['replyToken'], "$num[0] + $num[1] = $val");
+						//$result = $bot->replyText($event['replyToken'], "$num[0] + $num[1] = $val");
 					}
 					else if(strpos($event['message']['text'], '/sub') !== false){
 						// substract
