@@ -70,7 +70,7 @@ function gcd($a, $b){
 
 				if($event['message']['type'] == 'text'){
 
-					if($event['message']['text'] == "help"){
+					if($event['message']['text'] == "/help"){
 						//panduan ea
 						$result = $bot->replyText($event['replyToken'], 
 "KALKULATOR:
@@ -86,17 +86,22 @@ NOTE: jika angka input lebih dari dua, hanya diambil 2 angka pertama
 mengalikan semua angka yang ditulis
 
 • /div
-mengalikan dua angka dengan format
-[hasil desimal], [hasil bulat], [sisa bagi]
-
+membagi dua angka dan menuliskannya dalam desimal, hasil floor, dan sisa bagi
 NOTE: jika angka lebih dari dua, hanya diambil 2 angka pertama
 
 • /gcd atau /fpb
 menentukan faktor persekutuan terbesar (FPB) dari 2 bilangan
+NOTE: jika angka lebih dari dua, hanya diambil 2 angka pertama
 
 • /lcm atau /kpk
 menentukan kelipatan persekutuan terkecil (KPK) dari 2 bilangan
+NOTE: jika angka lebih dari dua, hanya diambil 2 angka pertama
+");
+					}
 
+					else if($event['message']['text'] == "/about"){
+						$result = $bot->replyText($event['replyToken'], 
+"Bot ini dapat digunakan sebagai tools untuk aneka pengolahan matematika. Untuk selengkapnya, ketik '/help' untuk melihat lebih lanjut tentang penggunaan akun ini :D
 ");
 					}
 
