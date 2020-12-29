@@ -73,14 +73,31 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 
 					else if(strpos($event['message']['text'], '/sub') !== false){
 						// substract
+						preg_match_all('!\d+!', $event['message']['text'], $num);
+						$val = num[0][0];
+						for($i = 1; $i < count($num[0]); $i++){
+							$val -= $i;
+						}
+						$result = $bot->replyText($event['replyToken'], "$val");
 					}
 
 					else if(strpos($event['message']['text'], '/multiply') !== false){
 						// multiply
+						preg_match_all('!\d+!', $event['message']['text'], $num);
+						$val = 1;
+						foreach($num[0] as $i){
+							$val *= $i;
+						}
+						$result = $bot->replyText($event['replyToken'], "$val");
 					}
 
 					else if(strpos($event['message']['text'], '/div') !== false){
 						// divide
+						preg_match_all('!\d+!', $event['message']['text'], $num);
+						$valdec = $num[0][0] / $num[0][1];
+						$valfloor = (int)($num[0][0] / $num[0][1]);
+						$valremainder = $num[0][0] % $num[0][1];
+						$result = $bot->replyText($event['replyToken'], "$valdec, $valfloor, $valremainder");
 					}
 
 				}
