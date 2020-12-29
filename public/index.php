@@ -107,9 +107,9 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 
 					// dalam game
 					if($startgame = true){
-						global $a, $b, $c;
+						global $a, $b, $c, $counter;
 						if($event['message']['text'] == $c){
-
+							global $a, $b, $c;
 							$counter++; // tambah skor
 							
 							$correct = new TextMessageBuilder('Benar!!');
