@@ -74,14 +74,24 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 					if($event['message']['text'] == '/start'){
 						// mulai game
 						$result = $bot->replyText($event['replyToken'], 'Game dimulai!');
-						$startgame = True;
+						$startgame = true;
+
+						$result = $bot->replyText($event['replyToken'], 'test bisa kah');
+
+						// level-level
+						/*$counter = 0;
+						while($startgame = true){
+							$a = rand(1,100); // angka a
+							$b = rand(1,100); // angka b
+							$operator = rand(1,4); //tambah kurang kali bagi
+
+						}*/
 					}
 
 					// command '/help'
 					else if($event['message']['text'] == '/help'){
 						// panduan main
-						$result = $bot->replyText($event['replyToken'], '
-PANDUAN
+						$result = $bot->replyText($event['replyToken'], 'PANDUAN
 /start -> mulai permainan
 /help -> bantuan
 /quit -> keluar dari permainan
