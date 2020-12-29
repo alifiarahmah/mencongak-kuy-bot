@@ -62,14 +62,16 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 
 				if($event['message']['type'] == 'text'){
 
-					if($event['message']['text'] == "/help"){
+					if($event['message']['text'] == "help"){
 						//panduan ea
 						$result = $bot->replyText($event['replyToken'], 
-"• /add
+"KALKULATOR:
+• /add
 menjumlahkan semua angka yang ditulis
 
 • /substract
 mengurangi angka pertama dengan angka kedua
+
 NOTE: jika angka input lebih dari dua, hanya diambil 2 angka pertama
 
 • /multiply
@@ -79,7 +81,10 @@ mengalikan semua angka yang ditulis
 mengalikan dua angka dengan format
 [hasil desimal], [hasil bulat], [sisa bagi]
 
-NOTE: jika angka lebih dari dua, hanya diambil 2 angka pertama");
+NOTE: jika angka lebih dari dua, hanya diambil 2 angka pertama
+
+
+");
 					}
 
 					else if(strpos($event['message']['text'], '/add') !== false){
@@ -89,14 +94,16 @@ NOTE: jika angka lebih dari dua, hanya diambil 2 angka pertama");
 						foreach($num[0] as $i){
 							$val += $i;
 						}
-						$result = $bot->replyText($event['replyToken'], "$val");
+						$result = $bot->replyText($event['replyToken'], "Hasil = $val");
 					}
 
 					else if(strpos($event['message']['text'], '/sub') !== false){
 						// substract
 						preg_match_all('!\d+!', $event['message']['text'], $num);
-						$val = num[0][0] - num[0][1];
-						$result = $bot->replyText($event['replyToken'], "$val");
+						$a = $num[0][0];
+						$b = $num[0][1];
+						$val = $a - $b;
+						$result = $bot->replyText($event['replyToken'], "$a - $b = $val");
 					}
 
 					else if(strpos($event['message']['text'], '/multiply') !== false){
@@ -106,16 +113,41 @@ NOTE: jika angka lebih dari dua, hanya diambil 2 angka pertama");
 						foreach($num[0] as $i){
 							$val *= $i;
 						}
-						$result = $bot->replyText($event['replyToken'], "$val");
+						$result = $bot->replyText($event['replyToken'], "Hasil = $val");
 					}
 
 					else if(strpos($event['message']['text'], '/div') !== false){
 						// divide
 						preg_match_all('!\d+!', $event['message']['text'], $num);
-						$valdec = $num[0][0] / $num[0][1];
-						$valfloor = (int)($num[0][0] / $num[0][1]);
-						$valremainder = $num[0][0] % $num[0][1];
-						$result = $bot->replyText($event['replyToken'], "$valdec, $valfloor, $valremainder");
+						$a = $num[0][0]; $b = $num[0][1];
+						$valdec = $a / $b;
+						$valfloor = (int)($a / $b);
+						$valremainder = $a % $b;
+						$result = $bot->replyText($event['replyToken'], "$a / $b\nDesimal = $valdec\Hasil bagi (floor) = $valfloor\nSisa bagi = $valremainder");
+					}
+
+					else if(strpos($event['message']['text'], '/max') !== false){
+						// max
+						preg_match_all('!\d+!', $event['message']['text'], $num);
+						$val = $num[0][0];
+						foreach($num[0] as $i){
+							if($i > $val){
+								$val = $i;
+							}
+						}
+						$result = $bot->replyText($event['replyToken'], "Terbesar: $val");
+					}
+
+					else if(strpos($event['message']['text'], '/min') !== false){
+						// min
+						preg_match_all('!\d+!', $event['message']['text'], $num);
+						$val = $num[0][0];
+						foreach($num[0] as $i){
+							if($i < $val){
+								$val = $i;
+							}
+						}
+						$result = $bot->replyText($event['replyToken'], "Terkecil: $val");
 					}
 
 				}
