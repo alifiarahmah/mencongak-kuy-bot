@@ -97,11 +97,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 					// command '/help'
 					else if($event['message']['text'] == '/help'){
 						// panduan main
-						$result = $bot->replyText($event['replyToken'], 'PANDUAN
-/start -> mulai permainan
-/help -> bantuan
-/quit -> keluar dari permainan
-');
+						$result = $bot->replyText($event['replyToken'], "PANDUAN\n/start -> mulai permainan\n/help -> bantuan\n/quit -> keluar dari permainan");
 					}
 					
 					//command '/quit'
@@ -143,14 +139,14 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 								$result = $bot->replyMessage($event['replyToken'],$nextMultiMessage);
 
 							} else{
-								$wrong = new TextMessageBuilder('Salah... :(');
+								$wrong = new TextMessageBuilder("Salah... :(\nJawaban yang benar adalah $c");
 								$stats = new TextMessageBuilder("Kamu telah benar $counter soal.");
 								$replay = new TextMessageBuilder('Untuk bermain lagi, ketik /start !!');
 
 								$startgame = false;
 								$wrongMultiMessage = new MultiMessageBuilder();
 								$wrongMultiMessage->add($wrong);
-								//$wrongMultiMessage->add($stats);
+								$wrongMultiMessage->add($stats);
 								$wrongMultiMessage->add($replay);
 
 								$result = $bot->replyMessage($event['replyToken'],$wrongMultiMessage);
