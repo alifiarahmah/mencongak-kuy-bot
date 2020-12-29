@@ -61,7 +61,28 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 			if ($event['type'] == 'message'){
 
 				if($event['message']['type'] == 'text'){
-					if(strpos($event['message']['text'], '/add') !== false){
+
+					if($event['message']['text'] == "/help"){
+						//panduan ea
+						$result = $bot->replyText($event['replyToken'], 
+"• /add
+menjumlahkan semua angka yang ditulis
+
+• /substract
+mengurangi angka pertama dengan angka kedua
+NOTE: jika angka input lebih dari dua, hanya diambil 2 angka pertama
+
+• /multiply
+mengalikan semua angka yang ditulis
+
+• /div
+mengalikan dua angka dengan format
+[hasil desimal], [hasil bulat], [sisa bagi]
+
+NOTE: jika angka lebih dari dua, hanya diambil 2 angka pertama");
+					}
+
+					else if(strpos($event['message']['text'], '/add') !== false){
 						// add
 						preg_match_all('!\d+!', $event['message']['text'], $num);
 						$val = 0;
