@@ -76,7 +76,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 						preg_match_all('!\d+!', $event['message']['text'], $num);
 						$val = num[0][0];
 						for($i = 1; $i < count($num[0]); $i++){
-							$val -= $i;
+							$val -= num[0][$i];
 						}
 						$result = $bot->replyText($event['replyToken'], "$val");
 					}
