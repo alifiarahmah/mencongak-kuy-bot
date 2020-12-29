@@ -65,7 +65,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 						// add
 						preg_match_all('!\d+!', $event['message']['text'], $num);
 						$val = $num[0] + $num[1];
-						//$result = $bot->replyText($event['replyToken'], "$num[0] + $num[1] = $val");
+						$result = $bot->replyText($event['replyToken'], "$num[0] + $num[1] = $val");
 					}
 
 					else if(strpos($event['message']['text'], '/sub') !== false){
@@ -75,7 +75,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 					else if(strpos($event['message']['text'], '/multiply') !== false){
 						// multiply
 					}
-					
+
 					else if(strpos($event['message']['text'], '/div') !== false){
 						// divide
 					}
