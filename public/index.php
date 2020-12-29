@@ -79,12 +79,12 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 					//$operatoridx = rand(1,3); //tambah kurang kali
 
 					// command '/start'
-					if($event['message']['text'] == '/start'){
+					if($event['message']['text'] == "/start"){
 						// mulai game
 						$startgame = true;
 
 						$startgame = false;
-						$startText = new TextMessageBuilder('Game dimulai!');
+						$startText = new TextMessageBuilder("Game dimulai!");
 						$soal = new TextMessageBuilder("$a + $b = ?\njawaban=$c");
 
 						$startMultiMessage = new MultiMessageBuilder();
@@ -117,9 +117,9 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 					else{
 						// selagi main game
 						if($startgame = true){
-							if($event['message']['text'] == "$c"){
+							if($event['message']['text'] == $c){
 
-								$counter =+ 1; // tambah skor
+								$counter++; // tambah skor
 								
 								$correct = new TextMessageBuilder('Benar!!');
 								$nextSoal = new TextMessageBuilder('Soal selanjutnya:');
