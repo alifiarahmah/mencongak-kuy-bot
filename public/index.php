@@ -63,9 +63,9 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 	
 					// variabel buat game
 					$counter = 0;
-					$a = 0;
-					$b = 0;
-					$c = 0;
+					$a = rand(1,100);
+					$b = rand(1,100);
+					$c = $a + $b;
 					$startgame = false;
 					//$operatoridx = rand(1,3); // tambah kurang kali
 
@@ -105,7 +105,9 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 						$result = $bot->replyMessage($event['replyToken'],$quitMultiMessage);
 					}
 
+					// dalam game
 					if($startgame = true){
+						global $a, $b, $c;
 						if($event['message']['text'] == $c){
 
 							$counter++; // tambah skor
