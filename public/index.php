@@ -84,7 +84,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 
 						$startgame = false;
 						$startText = new TextMessageBuilder('Game!');
-						$soal = new TextMessageBuilder($a + " + " + $b + " = ?");
+						$soal = new TextMessageBuilder(strval($a) + " + " + strval($b) + " = ?");
 
 						$startMultiMessage = new MultiMessageBuilder();
 						$startMultiMessage->add($startText);
@@ -131,7 +131,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 								$a = rand(1,100);
 								$b = rand(1,100);
 
-								$soal = new TextMessageBuilder($a + " + " + $b + " = ?");
+								$soal = new TextMessageBuilder(strval($a) + " + " + strval($b) + " = ?");
 
 								$nextMultiMessage = new MultiMessageBuilder();
 								$nextMultiMessage->add($correct);
