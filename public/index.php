@@ -76,9 +76,6 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 
 						$startgame = false;
 						$startText = new TextMessageBuilder("Game dimulai!");
-						$a = rand(1,100); // angka a
-						$b = rand(1,100); // angka b
-						$c = $a + $b;
 						$soal = new TextMessageBuilder("$a + $b = ?\njawaban=$c");
 
 						$startMultiMessage = new MultiMessageBuilder();
@@ -109,7 +106,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 					}
 
 					if($startgame = true){
-						if($event['message']['text'] == $cc){
+						if($event['message']['text'] == $c){
 
 							$counter++; // tambah skor
 							
