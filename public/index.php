@@ -65,7 +65,10 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 						// add
 						preg_match_all('!\d+!', $event['message']['text'], $num);
 						$val = 0;
-						$result = $bot->replyText($event['replyToken'], "$num");
+						foreach($num[0] as $i){
+							$val += i;
+						}
+						$result = $bot->replyText($event['replyToken'], "$val");
 					}
 
 					else if(strpos($event['message']['text'], '/sub') !== false){
