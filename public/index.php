@@ -84,7 +84,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 
 						$startgame = false;
 						$startText = new TextMessageBuilder('Game!');
-						$soal = new TextMessageBuilder(strval($a) + " + " + strval($b) + " = ?");
+						$soal = new TextMessageBuilder("$a + $b = ?");
 
 						$startMultiMessage = new MultiMessageBuilder();
 						$startMultiMessage->add($startText);
@@ -120,18 +120,18 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 					else{
 						// selagi main game
 						if($startgame = true){
-							if($event['message']['text'] == strval($a+$b)){
+							if($event['message']['text'] == "$a+$b"){
 
 								$counter++; // tambah skor
 								
 								$correct = new TextMessageBuilder('Benar!!');
-								$nextSoal = new TextMessageBuilder('Soal nomor ' + strval($counter+1) + ':');
+								$nextSoal = new TextMessageBuilder('Soal nomor {$counter+1} :');
 
 								//ubah value $a dan $b
 								$a = rand(1,100);
 								$b = rand(1,100);
 
-								$soal = new TextMessageBuilder(strval($a) + " + " + strval($b) + " = ?");
+								$soal = new TextMessageBuilder("$a + $b = ?");
 
 								$nextMultiMessage = new MultiMessageBuilder();
 								$nextMultiMessage->add($correct);
@@ -142,7 +142,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 
 							} else{
 								$wrong = new TextMessageBuilder('Salah... :(');
-								$stats = new TextMessageBuilder('Kamu telah benar ' + strval($counter)+ ' soal.');
+								$stats = new TextMessageBuilder('Kamu telah benar $counter soal.');
 								$replay = new TextMessageBuilder('Untuk bermain lagi, ketik /start !!');
 
 								$startgame = false;
