@@ -70,22 +70,27 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 					// $textMessageBuilder = new TextMessageBuilder($event['message']['text']);
 					// $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
 	
+					// variabel buat game
+					$counter = 0;
+					$a = rand(1,100); // angka a
+					$b = rand(1,100); // angka b
+					$startgame = false;
+					//$operatoridx = rand(1,3); //tambah kurang kali
+
 					// command '/start'
 					if($event['message']['text'] == '/start'){
 						// mulai game
-						$result = $bot->replyText($event['replyToken'], 'Game dimulai!');
 						$startgame = true;
 
-						$result = $bot->replyText($event['replyToken'], 'test bisa kah');
+						$startgame = false;
+						$startText = new TextMessageBuilder('Game!');
+						$soal = new TextMessageBuilder($a + " + " + $b + " = ?");
 
-						// level-level
-						/*$counter = 0;
-						while($startgame = true){
-							$a = rand(1,100); // angka a
-							$b = rand(1,100); // angka b
-							$operator = rand(1,4); //tambah kurang kali bagi
+						$startMultiMessage = new MultiMessageBuilder();
+						$startMultiMessage->add($startText);
+						$startMultiMessage->add($soal);
 
-						}*/
+						$result = $bot->replyMessage($event['replyToken'],$startMultiMessage);
 					}
 
 					// command '/help'
@@ -101,6 +106,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 					//command '/quit'
 					else if($event['message']['text'] == '/quit'){
 						// dadah
+						$startgame = false;
 						$quitText = new TextMessageBuilder('Sampai berjumpa lagi!');
 						$quitSticker = new StickerMessageBuilder(1,408);
 
@@ -109,6 +115,45 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 						$quitMultiMessage->add($quitSticker);
 
 						$result = $bot->replyMessage($event['replyToken'],$quitMultiMessage);
+					}
+
+					else{
+						// selagi main game
+						if($startgame = true){
+							if($event['message']['text'] == strval($a+$b)){
+
+								$counter++; // tambah skor
+								
+								$correct = new TextMessageBuilder('Benar!!');
+								$nextSoal = new TextMessageBuilder('Soal nomor ' + strval($counter+1) + ':');
+
+								//ubah value $a dan $b
+								$a = rand(1,100);
+								$b = rand(1,100);
+
+								$soal = new TextMessageBuilder($a + " + " + $b + " = ?");
+
+								$nextMultiMessage = new MultiMessageBuilder();
+								$nextMultiMessage->add($correct);
+								$nextMultiMessage->add($nextSoal);
+								$nextMultiMessage->add($soal);
+
+								$result = $bot->replyMessage($event['replyToken'],$nextMultiMessage);
+
+							} else{
+								$wrong = new TextMessageBuilder('Salah... :(');
+								$stats = new TextMessageBuilder('Kamu telah benar ' + strval($counter)+ ' soal.');
+								$replay = new TextMessageBuilder('Untuk bermain lagi, ketik /start !!');
+
+								$startgame = false;
+								$wrongMultiMessage = new MultiMessageBuilder();
+								$wrongMultiMessage->add($wrong);
+								$wrongMultiMessage->add($stats);
+								$wrongMultiMessage->add($replay);
+
+								$result = $bot->replyMessage($event['replyToken'],$wrongMultiMessage);
+							}
+						}
 					}
 
 					$response->getBody()->write(json_encode($result->getJSONDecodedBody()));
