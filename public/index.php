@@ -74,6 +74,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 					$counter = 0;
 					$a = rand(1,100); // angka a
 					$b = rand(1,100); // angka b
+					$c = $a + $b;
 					$startgame = false;
 					//$operatoridx = rand(1,3); //tambah kurang kali
 
@@ -83,7 +84,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 						$startgame = true;
 
 						$startgame = false;
-						$startText = new TextMessageBuilder('Game!');
+						$startText = new TextMessageBuilder('Game dimulai!');
 						$soal = new TextMessageBuilder("$a + $b = ?");
 
 						$startMultiMessage = new MultiMessageBuilder();
@@ -120,7 +121,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 					else{
 						// selagi main game
 						if($startgame = true){
-							if($event['message']['text'] == (string)$a+$b){
+							if($event['message']['text'] == (string)$c){
 
 								$counter =+ 1; // tambah skor
 								
@@ -130,6 +131,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 								//ubah value $a dan $b
 								$a = rand(1,100);
 								$b = rand(1,100);
+								$c = $a + $b;
 
 								$soal = new TextMessageBuilder("$a + $b = ?");
 
