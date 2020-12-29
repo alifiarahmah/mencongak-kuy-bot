@@ -50,8 +50,69 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
             return $response->withStatus(400, 'Invalid signature');
         }
     }
-    
-// kode aplikasi nanti disini
- 
+
+
+// kode aplikasi nanti di sini //
+
+	//reply message
+	$data = json_decode($body, true);
+	if(is_array($data['events'])){
+		foreach ($data['events'] as $event)
+		{
+			if ($event['type'] == 'message')
+			{
+				if($event['message']['type'] == 'text')
+				{
+					// send same message as reply to user
+					//$result = $bot->replyText($event['replyToken'], $event['message']['text']);
+	
+					// or we can use replyMessage() instead to send reply message
+					// $textMessageBuilder = new TextMessageBuilder($event['message']['text']);
+					// $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
+	
+					// command '/start'
+					if($event['message']['text'] == '/start'){
+						// mulai game
+						$result = $bot->replyText($event['replyToken'], 'Game dimulai!');
+						$startgame = True;
+					}
+
+					// command '/help'
+					else if($event['message']['text'] == '/help'){
+						// panduan main
+						$result = $bot->replyText($event['replyToken'], '
+PANDUAN
+/start -> mulai permainan
+/help -> bantuan
+/quit -> keluar dari permainan
+');
+					}
+					
+					//command '/quit'
+					else if($event['message']['text'] == '/quit'){
+						// dadah
+						$quitText = new TextMessageBuilder('Sampai berjumpa lagi!');
+						$quitSticker = new StickerMessageBuilder(1,408);
+
+						$quitMultiMessage = new MultiMessageBuilder();
+						$quitMultiMessage->add($quitText);
+						$quitMultiMessage->add($quitSticker);
+
+						$result = $bot->replyMessage($event['replyToken'],$quitMultiMessage);
+					}
+
+					$response->getBody()->write(json_encode($result->getJSONDecodedBody()));
+					return $response
+						->withHeader('Content-Type', 'application/json')
+						->withStatus($result->getHTTPStatus());
+				}
+			}
+		}
+	}
+
+// kode aplikasi selesai di sini //
+
+
 });
+
 $app->run();
