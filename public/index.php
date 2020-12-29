@@ -121,7 +121,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 					else{
 						// selagi main game
 						if($startgame = true){
-							if($event['message']['text'] == (string)$c){
+							if($event['message']['text'] == "$c"){
 
 								$counter =+ 1; // tambah skor
 								
@@ -144,7 +144,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 
 							} else{
 								$wrong = new TextMessageBuilder('Salah... :(');
-								//$stats = new TextMessageBuilder('Kamu telah benar $counter soal.');
+								$stats = new TextMessageBuilder("Kamu telah benar $counter soal.");
 								$replay = new TextMessageBuilder('Untuk bermain lagi, ketik /start !!');
 
 								$startgame = false;
