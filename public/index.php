@@ -54,6 +54,14 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 
 // kode aplikasi nanti di sini //
 
+function gcd($a, $b){
+	if($b == 0){
+		return $a;
+	} else{
+		return gcd($b, $a % $b);
+	}
+}
+
 	// reply message
 	$data = json_decode($body, true);
 	if(is_array($data['events'])){
@@ -83,6 +91,11 @@ mengalikan dua angka dengan format
 
 NOTE: jika angka lebih dari dua, hanya diambil 2 angka pertama
 
+• /gcd atau /fpb
+menentukan faktor persekutuan terbesar (FPB) dari 2 bilangan
+
+• /lcm atau /kpk
+menentukan kelipatan persekutuan terkecil (KPK) dari 2 bilangan
 
 ");
 					}
@@ -97,7 +110,7 @@ NOTE: jika angka lebih dari dua, hanya diambil 2 angka pertama
 						$result = $bot->replyText($event['replyToken'], "Hasil = $val");
 					}
 
-					else if(strpos($event['message']['text'], '/sub') !== false){
+					else if(strpos($event['message']['text'], '/substract') !== false){
 						// substract
 						preg_match_all('!\d+!', $event['message']['text'], $num);
 						$a = $num[0][0];
@@ -123,7 +136,7 @@ NOTE: jika angka lebih dari dua, hanya diambil 2 angka pertama
 						$valdec = $a / $b;
 						$valfloor = (int)($a / $b);
 						$valremainder = $a % $b;
-						$result = $bot->replyText($event['replyToken'], "$a / $b\nDesimal = $valdec\Hasil bagi (floor) = $valfloor\nSisa bagi = $valremainder");
+						$result = $bot->replyText($event['replyToken'], "$a / $b\nDesimal = $valdec\nHasil bagi (floor) = $valfloor\nSisa bagi = $valremainder");
 					}
 
 					else if(strpos($event['message']['text'], '/max') !== false){
@@ -148,6 +161,24 @@ NOTE: jika angka lebih dari dua, hanya diambil 2 angka pertama
 							}
 						}
 						$result = $bot->replyText($event['replyToken'], "Terkecil: $val");
+					}
+
+					else if((strpos($event['message']['text'], '/gcd') !== false) || (strpos($event['message']['text'], '/fpb') !== false)){
+						// gcd
+						preg_match_all('!\d+!', $event['message']['text'], $num);
+						$a = $num[0][0];
+						$b = $num[0][1];
+						$val = gcd($a, $b);
+						$result = $bot->replyText($event['replyToken'], "FPB: $val");
+					}
+
+					else if((strpos($event['message']['text'], '/lcm') !== false) || (strpos($event['message']['text'], '/kpk') !== false)){
+						// lcm
+						preg_match_all('!\d+!', $event['message']['text'], $num);
+						$a = $num[0][0];
+						$b = $num[0][1];
+						$val = $a * $b / gcd($a, $b);
+						$result = $bot->replyText($event['replyToken'], "KPK: $val");
 					}
 
 				}
