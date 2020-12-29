@@ -85,7 +85,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
 
 						$startgame = false;
 						$startText = new TextMessageBuilder('Game dimulai!');
-						$soal = new TextMessageBuilder("$a + $b = ?");
+						$soal = new TextMessageBuilder("$a + $b = ?\njawaban=$c");
 
 						$startMultiMessage = new MultiMessageBuilder();
 						$startMultiMessage->add($startText);
