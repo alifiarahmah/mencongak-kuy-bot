@@ -186,6 +186,10 @@ NOTE: jika angka lebih dari dua, hanya diambil 2 angka pertama
 						$result = $bot->replyText($event['replyToken'], "KPK: $val");
 					}
 
+					else{
+						$result = $bot->replyText($event['replyToken'], "Mohon maaf, kata kunci yang anda masukkan kurang tepat!\nUntuk mengetahui daftar keyword yang ada untuk mengisi kelas ini, ketik '\help'! :D");
+					}
+
 				}
 
 				// buat game
